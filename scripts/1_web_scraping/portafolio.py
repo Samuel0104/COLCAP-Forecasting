@@ -28,20 +28,30 @@ for section in sections:
         driver.implicitly_wait(10)
         ActionChains(driver).move_to_element(button3).click(button3).perform()
         print(f"\t{keyword}")
-        
+
         # Data collection
-        temp1 = [title.text for title in driver.find_elements(By.CLASS_NAME, "listing-title")]
-        temp2 = [date.text for date in driver.find_elements(By.CLASS_NAME, "listing-time")]
+        col1 = [title.text for title in driver.find_elements(By.CLASS_NAME, "listing-title")]
+        col2 = []
+        for date in driver.find_elements(By.CLASS_NAME, "listing-time"):
+            temp = date.text.split()
+            col2.append(" ".join(temp[3:7]))
         links = driver.find_elements(By.CLASS_NAME, "news-title")
         for i, link in enumerate(links):
             url = link.get_attribute("href")
             req = requests.get(url)
-            soup = bs4.BeautifulSoup(req.text, features="lxml")
+            soup = BeautifulSoup(req.text, features="lxml")
             content = soup.find(class_="article-content")
             if content:
-                titles.append(temp1[i])
-                dates.append(temp2[i])
-                texts.append(content.get_text())
+                content = content.find_all(class_=re.compile("parrafo"))
+                pars = ""
+                for paragraph in content:
+                    spam = paragraph.find_all("a")
+                    for a in spam:
+                        a.decompose()
+                    pars += paragraph.get_text()
+                titles.append(col1[i])
+                dates.append(col2[i])
+                texts.append(pars)
 
 # Dataframe
 df = pd.DataFrame({
