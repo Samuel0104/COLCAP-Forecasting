@@ -6,7 +6,6 @@ time.sleep(2)
 titles = []
 dates = []
 links = []
-texts = []
 
 sections = ["Energía", "Economía", "Indicadores Económicos",
             "Internacional", "Inversión", "Negocios"]
@@ -58,12 +57,12 @@ for section in sections:
             col1_prev = col1
             button4 = driver.find_element(By.CLASS_NAME, "next")
             button4.click()
+driver.quit()
 
 # Dataframe
 df = pd.DataFrame({
     "headline": titles,
     "date": dates,
     "link": links})
-df.dropna(inplace=True)
 df.drop_duplicates("link", inplace=True, ignore_index=True)
-df.to_csv("portafolio.csv")
+df.to_csv("portafolio.csv", index=False)

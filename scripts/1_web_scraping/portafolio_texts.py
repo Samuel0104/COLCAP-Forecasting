@@ -10,7 +10,7 @@ def get_content(url):
     req = requests.get(url)
     soup = BeautifulSoup(req.text, features="lxml")
     content = soup.find(class_="article-content")
-    text = ""
+    text = " "
     if content:
         content = content.find_all(class_=re.compile("parrafo"))
         for paragraph in content:
@@ -21,5 +21,6 @@ def get_content(url):
     return text
 
 df = pd.read_csv("portafolio.csv")
+df.dropna(inplace=True)
 df["content"] = df["link"].apply(get_content)
-df.to_csv("portafolio.csv")
+df.to_csv("portafolio.csv", index=False)
