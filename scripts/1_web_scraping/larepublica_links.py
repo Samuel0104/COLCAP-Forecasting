@@ -41,4 +41,4 @@ df = pd.DataFrame({
     "date": dates,
     "link": links})
 df.drop_duplicates("link", inplace=True, ignore_index=True)
-df.to_csv("larepublica.csv", index=False)
+df.to_csv("../../data/larepublica.csv", index=False)
