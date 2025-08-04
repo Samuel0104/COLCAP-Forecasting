@@ -50,11 +50,11 @@ for offset in range(1, 3 + 1):
                 sequence_length=window,
                 batch_size=1)
 
-            model = tf.keras.models.load_model(f"../../results/simple_models/model_t+{offset}_v{v}_w{window}.keras")
+            model = tf.keras.models.load_model(f"../../results/models_simple/model_t+{offset}_v{v}_w{window}.keras")
             train_acc = model.evaluate(train, return_dict=True)["accuracy"]
             val_acc = model.evaluate(val, return_dict=True)["accuracy"]
             test_acc = model.evaluate(test, return_dict=True)["accuracy"]
             
             acc.loc[len(acc)] = [v, window, train_acc, val_acc, test_acc]
         
-    acc.to_csv(f"../../results/simple_metrics/acc_t+{offset}.csv", index=False)
+    acc.to_csv(f"../../results/metrics_simple/acc_t+{offset}.csv", index=False)

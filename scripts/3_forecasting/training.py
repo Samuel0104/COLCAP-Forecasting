@@ -73,7 +73,7 @@ for window in range(10, 60 + 1, 10):
                                                 start_from_epoch=500)
     hist = model.fit(train, epochs=600, callbacks=[stopping], validation_data=val)
 
-    model.save(f"../../results/model_t+{offset}_v{v}_w{window}.keras")
+    model.save(f"../../results/models/model_t+{offset}_v{v}_w{window}.keras")
 
     fig, (ax0, ax1) = plt.subplots(ncols=2, figsize=(12, 5))
     ax0.plot(hist.history["MAE"], label="entrenamiento")
@@ -87,4 +87,4 @@ for window in range(10, 60 + 1, 10):
     ax1.set_xlabel("Época")
     ax1.legend()
 
-    fig.savefig(f"../../results/graphs_t+{offset}_v{v}_w{window}.png")
+    fig.savefig(f"../../results/graphs/graphs_t+{offset}_v{v}_w{window}.png")
