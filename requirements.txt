@@ -1,9 +1,13 @@
 beautifulsoup4
 matplotlib
+mpl_finance
 numpy
 pandas
 requests
 scikit-learn
 selenium
+spacy
 tensorflow
 transformers
+unidecode
+wordcloud
