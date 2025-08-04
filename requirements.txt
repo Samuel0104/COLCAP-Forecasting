@@ -1,3 +1,9 @@
-requests
 beautifulsoup4
+matplotlib
+numpy
+pandas
+requests
+scikit-learn
 selenium
+tensorflow
+transformers
