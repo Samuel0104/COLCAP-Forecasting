@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
+import random
 from transformers import pipeline
+random.seed(42)
 
 beto = pipeline("sentiment-analysis", model="bardsai/finance-sentiment-es-base")
 
@@ -21,23 +23,14 @@ for i in range(len(news)):
 news["score"] = score
 news = news.drop("content", axis=1)
 
-def get_sentiment(score):
-    threshold = 0.2
-    if score > threshold:
-        return 1
-    if score < -threshold:
-        return -1
-    return 0
+news.to_csv("../../data/sentiment_data.csv", index=False)
 
-df1 = news.groupby("date").mean().reset_index()
-df1["sentiment_mean"] = df1["score"].apply(get_sentiment)
+news_daily = news.groupby("date").agg(pd.Series.mode).reset_index()
+news_daily.rename(columns={"score": "sentiment"}, inplace=True)
 
-df2 = news.groupby("date").agg(pd.Series.mode).reset_index()
-df1["sentiment_mode"] = df2["score"]
-
-for i in range(len(df1)):
-    curr = df1.loc[i, "sentiment_mode"]
+for i in range(len(news_daily)):
+    curr = news_daily.loc[i, "sentiment"]
     if isinstance(curr, np.ndarray):
-        df1.loc[i, "sentiment_mode"] = df1.loc[i, "sentiment_mean"]
+        news_daily.loc[i, "sentiment"] = random.choice(curr)
 
-df1.to_csv("../../data/sentiment_data.csv", index=False)
+news_daily.to_csv("../../data/sentiment_data_daily.csv", index=False)
